@@ -9,6 +9,18 @@
       "command": "uvx",
       "args": ["excel-mcp-server"],
       "env": {}
+    },
+    "rss": {
+      "command": "uvx",
+      "args": ["-U", "rssmcp", "--opml", "input/product-management/information-sources/edtech-feeds.opml"],
+      "env": {}
+    },
+    "newsapi": {
+      "command": "uvx",
+      "args": ["news-api-mcp"],
+      "env": {
+        "NEWS_API_KEY": "${NEWS_API_KEY}"
+      }
     }
   }
 }

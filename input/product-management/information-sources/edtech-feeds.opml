@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="2.0">
+  <head>
+    <title>EdTech Intelligence Feeds</title>
+    <dateCreated>2026-02-18</dateCreated>
+  </head>
+  <body>
+    <outline text="EdTech Publications">
+      <outline text="EdSurge" type="rss"
+        xmlUrl="https://www.edsurge.com/feed"
+        htmlUrl="https://www.edsurge.com" />
+      <outline text="eSchool News" type="rss"
+        xmlUrl="https://www.eschoolnews.com/feed/"
+        htmlUrl="https://www.eschoolnews.com" />
+      <outline text="THE Journal" type="rss"
+        xmlUrl="https://thejournal.com/rss-feeds/all-articles.aspx"
+        htmlUrl="https://thejournal.com" />
+      <outline text="Chalkbeat" type="rss"
+        xmlUrl="https://www.chalkbeat.org/arc/outboundfeeds/rss/"
+        htmlUrl="https://www.chalkbeat.org" />
+      <!-- Education Week: no RSS currently available (planned future feature) -->
+      <!-- Inside Higher Ed: feed endpoint returns 404 as of 2026-02 -->
+    </outline>
+    <outline text="Think Tanks &amp; Research">
+      <!-- Brookings Education: /topic/education/feed/ returns HTML, not RSS -->
+      <!-- Add working think tank feeds as discovered -->
+    </outline>
+    <outline text="Vendor Blogs">
+      <!-- Add vendor-specific RSS feeds as discovered -->
+      <!-- Example: <outline text="VendorName Blog" type="rss" xmlUrl="https://vendor.com/blog/feed" /> -->
+    </outline>
+    <outline text="State Education Agencies">
+      <!-- Add SEA RSS feeds as they are confirmed working -->
+      <!-- Example: <outline text="California DOE" type="rss" xmlUrl="https://www.cde.ca.gov/rss/feed.xml" /> -->
+    </outline>
+  </body>
+</opml>

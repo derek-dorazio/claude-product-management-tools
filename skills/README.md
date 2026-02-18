@@ -13,6 +13,12 @@ Reusable research skill prompts that can be referenced by commands or used stand
 | Fact Check | [fact-check.md](fact-check.md) | Verify claims against multiple sources |
 | Deep Dive | [deep-dive.md](deep-dive.md) | Thorough single-topic investigation from a URL or source |
 
+### EdTech
+
+| Skill | File | Purpose |
+|---|---|---|
+| EdTech Sources | [edtech-sources.md](edtech-sources.md) | Source selection logic for EdTech research commands |
+
 ## How Skills Work
 
 Skills are reusable prompt templates. They can be:
