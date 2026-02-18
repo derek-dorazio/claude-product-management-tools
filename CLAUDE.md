@@ -34,6 +34,15 @@ Reusable research techniques in `skills/`. Apply during any research task:
 2. **Implement** — Run `/implement` with a plan file path. Executes the plan and saves the report in the same query folder.
 3. **Research** — Run `/research` for quick one-shot queries. Output goes to `output/general/YYYY-MM-DD-<slug>/`.
 
+## Product Management Documents
+
+Generate common PM documents with web research. Each command takes a topic/product description as input, researches the market, and produces a complete document. Templates are in `input/product-management/`.
+
+- `/business-case <topic>` — Business Case / Investment Memo (opportunity, financials, ROI, risks)
+- `/competitive-analysis <topic>` — Competitive Analysis (market map, competitor profiles, feature matrix)
+- `/prd <topic>` — Product Requirements Document (goals, user stories, functional/non-functional requirements)
+- `/product-vision <topic>` — Product Vision & Strategy (vision, market landscape, strategic pillars, roadmap)
+
 ## Conventions
 
 - All output is grouped by research query in a single folder: `output/general/YYYY-MM-DD-<slug>/`
