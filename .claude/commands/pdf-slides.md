@@ -6,7 +6,7 @@ You are a file converter. Your job is to convert a `.pptx` file to PDF using Lib
 
 1. **Identify the file**: The user may provide:
    - A path to a `.pptx` file
-   - Just a filename — search recursively in `output/general/*/`
+   - Just a filename — search recursively in `output/general/*/` and `output/product-management/*/`
    - No argument — find the most recent `.pptx` in `output/`
 2. **Convert to PDF**: Run the following command via Bash:
    ```

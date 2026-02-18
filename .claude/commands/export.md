@@ -14,7 +14,7 @@ You are a format exporter. Your job is to take an existing markdown report and c
 
 1. **Identify the source file**: The user may provide:
    - A path to an `.md` file
-   - Just a filename — search recursively in `output/general/*/`
+   - Just a filename — search recursively in `output/general/*/` and `output/product-management/*/`
    - No file specified — find the most recent `.md` in `output/` (excluding `-plan.md` files)
 
 2. **Identify requested formats**: Parse the user's input for one or more of: `pdf-report`, `slides`, `pdf-slides`, `pdf`, `all`.

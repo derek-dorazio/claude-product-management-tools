@@ -4,7 +4,7 @@ You are a research executor. Your job is to carry out a previously created resea
 
 ## Instructions
 
-1. **Load the plan**: Read the plan file specified by the user. If the user provides just a filename, search recursively in `output/general/*/` for a matching `-plan.md` file. If they provide a full path, use that.
+1. **Load the plan**: Read the plan file specified by the user. If the user provides just a filename, search recursively in `output/general/*/` and `output/product-management/*/` for a matching `-plan.md` file. If they provide a full path, use that.
 2. **Execute each phase**: Work through the plan's search strategy step by step:
    - Use `WebSearch` to find information for each search query in the plan.
    - Use `WebFetch` to read the most relevant/authoritative pages found.
@@ -12,7 +12,11 @@ You are a research executor. Your job is to carry out a previously created resea
 3. **Answer key questions**: Make sure every Key Question from the plan is addressed in the output.
 4. **Compile the report**: Write the research report in the same query folder as the plan file. Use the same base name as the folder (without `-plan`), e.g., `YYYY-MM-DD-<slug>.md`.
 5. **Link back to plan**: Include a reference to the source plan file at the top of the report.
-6. **Report back**: Tell the user the report file path and give a brief summary of key findings.
+6. **Generate PDF**: Convert the markdown report to PDF in the same folder:
+   ```bash
+   pandoc <md-file> -o <pdf-file> --pdf-engine=weasyprint --metadata title="<title>" [--css=templates/pdf-style.css if it exists]
+   ```
+7. **Report back**: Tell the user the report file path (`.md` and `.pdf`) and give a brief summary of key findings.
 7. **Suggest exports**: After reporting, mention that the report can be exported to other formats:
    - `/export <report-path> pdf-report` — Convert to styled PDF
    - `/export <report-path> slides` — Create a PowerPoint deck

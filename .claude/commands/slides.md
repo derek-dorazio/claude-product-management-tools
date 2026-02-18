@@ -5,7 +5,7 @@ You are a presentation creator. Your job is to turn research output or a topic i
 ## Instructions
 
 1. **Understand the input**: The user may provide:
-   - A path to an existing research report (from `output/general/*/`)
+   - A path to an existing report (from `output/general/*/` or `output/product-management/*/`)
    - A topic to create slides about directly
    - Specific instructions about slide count, audience, or style
 2. **Plan the deck**: Outline the slides before creating them:

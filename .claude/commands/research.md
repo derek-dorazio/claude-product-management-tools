@@ -8,7 +8,11 @@ You are a web researcher. This is a quick, single-pass research command for when
 2. **Search the web**: Use `WebSearch` to find relevant, current information. Run multiple searches if needed to cover the topic.
 3. **Fetch key sources**: Use `WebFetch` on the most authoritative/relevant results to get detailed information.
 4. **Write a concise report**: Create a query folder `output/general/YYYY-MM-DD-<slug>/` and save findings as `YYYY-MM-DD-<slug>.md` inside it.
-5. **Report back**: Summarize key findings and provide the output file path.
+5. **Generate PDF**: Convert the markdown to PDF in the same folder:
+   ```bash
+   pandoc <md-file> -o <pdf-file> --pdf-engine=weasyprint --metadata title="<title>" [--css=templates/pdf-style.css if it exists]
+   ```
+6. **Report back**: Summarize key findings and provide paths to both the `.md` and `.pdf` files.
 
 ## Output Format
 

@@ -14,9 +14,11 @@ product-management/
 │   └── settings/          # Project settings
 ├── scripts/               # Helper scripts for processing
 ├── input/                 # Research topics, URLs, questions (user-provided)
-├── output/                # All generated output, organized by query
-│   └── general/           # Research output
-│       └── YYYY-MM-DD-<slug>/  # One folder per research query
+├── output/                # All generated output
+│   ├── general/           # General research output
+│   │   └── YYYY-MM-DD-<slug>/  # One folder per research query
+│   └── product-management/     # PM document output
+│       └── <project-name>/     # One folder per project
 └── templates/             # Reusable templates for output formatting
 ```
 
@@ -45,10 +47,14 @@ Generate common PM documents with web research. Each command takes a topic/produ
 
 ## Conventions
 
-- All output is grouped by research query in a single folder: `output/general/YYYY-MM-DD-<slug>/`
+- **General research** output goes to: `output/general/YYYY-MM-DD-<slug>/`
+- **PM documents** output goes to: `output/product-management/<project-name>/`
+  - `<project-name>` is a kebab-case slug derived from the product/project name (e.g., `ai-chatbot`, `mobile-app-v2`)
+  - Multiple documents for the same project go in the same folder
 - Plan files get a `-plan` suffix: `YYYY-MM-DD-<slug>-plan.md`
 - All other files share the same base name with different extensions (`.md`, `.pdf`, `.pptx`, `.xlsx`)
-- When exporting produces multiple output files, zip them: `YYYY-MM-DD-<slug>.zip` in the query folder.
+- **Auto-PDF**: Whenever a markdown `.md` file is created, also generate a PDF version in the same folder using Pandoc + WeasyPrint. If `templates/pdf-style.css` exists, use it.
+- When exporting produces multiple output files, zip them in the same folder.
 - Plans reference their implementation output and vice versa.
 - Input files in `input/` can be `.md`, `.txt`, or `.json`.
 - When searching the web, always include source URLs in output.
