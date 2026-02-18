@@ -1,0 +1,13 @@
+# Claude Code settings (local/personal)
+.claude/settings/
+
+# OS files
+.DS_Store
+
+# Keep output directory structure but ignore generated content
+output/general/**/*.md
+output/general/**/*.pdf
+output/general/**/*.pptx
+output/general/**/*.xlsx
+output/general/**/*.zip
+!output/**/.gitkeep
