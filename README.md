@@ -1,6 +1,6 @@
 # Product Management Research
 
-A structured Claude Code project for product research and competitive analysis. Topics go in, organized markdown reports come out.
+A structured Claude Code project for product research, competitive analysis, and EdTech intelligence. Topics go in, organized markdown reports (with PDFs) come out.
 
 ## Project Structure
 
@@ -15,23 +15,28 @@ product-management/
 │   ├── evaluate-sources.md      # Assess source credibility
 │   ├── compare.md               # Structured comparisons
 │   ├── fact-check.md            # Verify claims across sources
-│   └── deep-dive.md             # Thorough single-source investigation
+│   ├── deep-dive.md             # Thorough single-source investigation
+│   └── edtech-sources.md        # EdTech source selection logic
 ├── .claude/
 │   └── commands/                # Executable slash command files
-│       ├── plan.md              # /plan — Create a research plan
-│       ├── implement.md         # /implement — Execute a research plan
-│       ├── research.md          # /research — Quick one-shot research
-│       ├── summarize.md         # /summarize — Condense any output
-│       ├── slides.md            # /slides — Create PowerPoint presentations
-│       └── excel.md             # /excel — Create or read Excel workbooks
 ├── scripts/
 │   ├── list-output.sh           # List all output files
 │   └── clean-output.sh          # Remove old output files
 ├── input/                       # Your research topics, URLs, and questions
-│   └── example-topic.md         # Example input file
-├── output/                      # All generated output, grouped by query
-│   └── general/                 # Research output
-│       └── YYYY-MM-DD-<slug>/   # One folder per query (all artifacts together)
+│   ├── example-topic.md         # Example input file
+│   └── product-management/      # PM document templates & source catalogs
+│       ├── pm-business-case.md
+│       ├── pm-competitive-analysis.md
+│       ├── pm-product-requirements-document(PRD).md
+│       ├── pm-product-vision-and-strategy.md
+│       └── information-sources/  # EdTech source catalog & OPML feeds
+├── output/                      # All generated output
+│   ├── general/                 # General research output
+│   │   └── YYYY-MM-DD-<slug>/   # One folder per query
+│   ├── product-management/      # PM document output
+│   │   └── <project-name>/      # One folder per project
+│   └── edtech/                  # EdTech intelligence output
+│       └── YYYY-MM-DD-<slug>/   # One folder per scan
 └── templates/                   # Reusable output templates
 ```
 
@@ -40,8 +45,12 @@ product-management/
 ### Prerequisites
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI installed
-- [uv](https://docs.astral.sh/uv/) installed (`brew install uv`) — needed for MCP servers (PowerPoint, Excel)
+- [uv](https://docs.astral.sh/uv/) installed (`brew install uv`) — needed for MCP servers
 - Open this project directory in Claude Code or VS Code with the Claude Code extension
+
+### Optional Setup
+
+- **NewsAPI key** — Sign up at [newsapi.org](https://newsapi.org) (free tier) and set `export NEWS_API_KEY=your_key` in your shell profile. Required for the `/edtech-scan`, `/state-watch`, `/competitor-intel`, `/standards-tracker`, and `/edtech-landscape` commands to use news API search.
 
 ### Quick Start
 
@@ -54,124 +63,70 @@ product-management/
 
 ## Commands
 
-### `/plan` — Create a Research Plan
+### Research
 
-Creates a structured research plan before doing any deep research. The plan includes objectives, key questions, a phased search strategy, and expected deliverables.
+| Command | Description |
+|---------|-------------|
+| `/plan <topic>` | Create a structured research plan |
+| `/implement <plan-path>` | Execute a research plan into a full report |
+| `/research <question>` | Quick one-shot web research |
+| `/summarize <file>` | Condense any output into a 1-page summary |
 
-**Usage:**
-```
-/plan <topic or question>
-/plan See input/example-topic.md
-```
+### Product Management Documents
 
-**Output:** `output/general/YYYY-MM-DD-<slug>/YYYY-MM-DD-<slug>-plan.md`
+| Command | Description |
+|---------|-------------|
+| `/business-case <topic>` | Business Case / Investment Memo |
+| `/competitive-analysis <topic>` | Competitive Analysis with feature matrix |
+| `/prd <topic>` | Product Requirements Document |
+| `/product-vision <topic>` | Product Vision & Strategy |
 
-**What it does:**
-1. Reads your topic (inline text or from an input file)
-2. Runs preliminary web searches to understand the landscape
-3. Produces a structured plan with search queries and phases
-4. Saves the plan and gives you the file path
+### EdTech Intelligence
 
-### `/implement` — Execute a Research Plan
+| Command | Description |
+|---------|-------------|
+| `/edtech-scan <topic>` | Scan EdTech publications for recent coverage |
+| `/state-watch <state(s)>` | Monitor state education agencies |
+| `/competitor-intel <company(ies)>` | EdTech competitor intelligence |
+| `/standards-tracker [states] [subject]` | Track academic standards changes |
+| `/edtech-landscape [scope]` | Comprehensive landscape briefing |
 
-Takes a plan file and executes it step by step, producing a comprehensive research report with source citations.
+### Export
 
-**Usage:**
-```
-/implement output/general/2026-02-18-competitor-landscape/2026-02-18-competitor-landscape-plan.md
-/implement 2026-02-18-competitor-landscape-plan.md
-```
+| Command | Description |
+|---------|-------------|
+| `/slides <file-or-topic>` | Create a PowerPoint deck |
+| `/excel <file-or-desc>` | Create or read Excel workbooks |
+| `/pdf-report <file>` | Convert markdown to PDF |
+| `/pdf-slides <file>` | Convert PowerPoint to PDF |
+| `/export <file> <format(s)>` | Convert to multiple formats at once |
 
-**Output:** Saved in the same query folder as the plan (e.g., `output/general/YYYY-MM-DD-<slug>/YYYY-MM-DD-<slug>.md`)
-
-**What it does:**
-1. Reads the plan file
-2. Executes each search phase (WebSearch + WebFetch)
-3. Answers every key question from the plan
-4. Compiles findings into a structured report with sources
-5. Links the report back to its source plan
-
-### `/research` — Quick One-Shot Research
-
-Skips the plan/implement cycle for simple questions. Searches the web, fetches key sources, and writes a concise report.
-
-**Usage:**
-```
-/research What is the current market share of project management tools?
-```
-
-**Output:** `output/general/YYYY-MM-DD-<slug>/YYYY-MM-DD-<slug>.md`
-
-### `/summarize` — Condense Research Output
-
-Reads any existing output file and produces a 1-page executive summary with key takeaways and suggested next steps.
-
-**Usage:**
-```
-/summarize output/general/2026-02-18-competitor-landscape/2026-02-18-competitor-landscape.md
-```
-
-**Output:** Saved alongside the original file with `-summary` appended to the filename.
-
-### `/slides` — Create PowerPoint Presentations
-
-Turns research output or a topic into a PowerPoint deck using the PowerPoint MCP server.
-
-**Usage:**
-```
-/slides output/general/2026-02-18-competitor-landscape/2026-02-18-competitor-landscape.md
-/slides A 10-slide overview of product-led growth trends
-```
-
-**Output:** Saved in the same query folder as the source report (e.g., `.pptx` alongside `.md`)
-
-**What it does:**
-1. Reads existing research output or takes a topic directly
-2. Plans the slide deck structure
-3. Creates slides using the PowerPoint MCP tools (title, bullets, tables, charts)
-4. Saves the `.pptx` file in the same folder as the source report
-
-### `/excel` — Create or Read Excel Workbooks
-
-Creates Excel spreadsheets from research data, or reads existing `.xlsx` files. Uses the Excel MCP server.
-
-**Usage:**
-```
-/excel Create a comparison spreadsheet from output/general/2026-02-18-competitor-landscape/2026-02-18-competitor-landscape.md
-/excel Read and summarize input/usage-data.xlsx
-```
-
-**Output:** Saved in the same query folder as the source report (e.g., `.xlsx` alongside `.md`)
-
-**What it does:**
-1. Reads research output or takes a data description
-2. Creates workbook with named sheets, headers, and formatted data
-3. Adds formulas for calculations where appropriate
-4. Can also read existing Excel files and summarize their contents
+For more information, see [commands/README.md](commands/README.md) for detailed usage, output paths, and workflow diagrams.
 
 ## MCP Servers
 
-This project uses MCP (Model Context Protocol) servers configured in [.mcp.json](.mcp.json):
+Configured in [.mcp.json](.mcp.json) and run automatically when Claude Code starts:
 
 | Server | Package | Purpose |
 |---|---|---|
 | `powerpoint` | `office-powerpoint-mcp-server` | Create and edit PowerPoint presentations |
 | `excel` | `excel-mcp-server` | Read and write Excel workbooks |
+| `rss` | `rssmcp` | Fetch RSS/Atom feeds from OPML catalog |
+| `newsapi` | `news-api-mcp` | Search news articles via NewsAPI |
 
-MCP servers run automatically when Claude Code starts in this directory. They require `uvx` (from `uv`): `brew install uv`.
+All servers require `uvx` (from `uv`): `brew install uv`. The `newsapi` server also requires a `NEWS_API_KEY` environment variable.
 
 ## Skills
 
-Skills are reusable research techniques in `skills/` that can be applied during any research task. See [skills/README.md](skills/README.md) for full details.
+Reusable research techniques in `skills/`. For more information, see [skills/README.md](skills/README.md) for the full index and usage guide.
 
-| Skill | File | Purpose |
-|---|---|---|
-| Source Evaluation | [evaluate-sources.md](skills/evaluate-sources.md) | Assess credibility and reliability of sources |
-| Compare & Contrast | [compare.md](skills/compare.md) | Structured comparison of multiple options/tools/approaches |
-| Fact Check | [fact-check.md](skills/fact-check.md) | Verify claims against multiple independent sources |
-| Deep Dive | [deep-dive.md](skills/deep-dive.md) | Thorough single-topic investigation from a URL or source |
-
-Skills use placeholder tokens (`{{TOPIC}}`, `{{URL}}`, `{{INPUT}}`) and produce structured markdown output. You can reference them in commands or use them directly in conversation.
+| Skill | Purpose |
+|---|---|
+| [evaluate-sources.md](skills/evaluate-sources.md) | Assess credibility and reliability of sources |
+| [compare.md](skills/compare.md) | Structured comparison of multiple options |
+| [fact-check.md](skills/fact-check.md) | Verify claims against multiple sources |
+| [deep-dive.md](skills/deep-dive.md) | Thorough single-source investigation |
+| [edtech-sources.md](skills/edtech-sources.md) | EdTech source selection logic for intelligence commands |
 
 ## Workflows
 
@@ -204,6 +159,33 @@ Best for simple questions or time-sensitive lookups.
 /research <your question>
 ```
 
+### PM Document Workflow
+
+Generate product management documents with web-sourced market data. Multiple documents for the same project share a folder.
+
+```
+/product-vision AI-powered math tutoring platform
+/business-case AI-powered math tutoring platform
+/prd AI-powered math tutoring platform
+/competitive-analysis AI-powered math tutoring platforms
+```
+
+All output lands in `output/product-management/ai-math-tutoring-platform/`.
+
+### EdTech Intelligence Workflow
+
+Monitor the EdTech landscape using publication feeds, state education agencies, and news APIs. For more information on sources, see [information-sources.md](input/product-management/information-sources/information-sources.md).
+
+```
+/edtech-scan adaptive learning
+/state-watch Texas, California, Florida
+/competitor-intel Khan Academy, IXL, DreamBox
+/standards-tracker Texas math
+/edtech-landscape K-12 math EdTech
+```
+
+All output lands in `output/edtech/YYYY-MM-DD-<slug>/`.
+
 ### Input File Workflow
 
 For research topics that need more context than a one-liner, create an input file first.
@@ -229,58 +211,6 @@ For research topics that need more context than a one-liner, create an input fil
 /plan See input/my-research-topic.md
 ```
 
-## Example: End-to-End Walkthrough
-
-This example shows the full plan-then-implement workflow for a product management research task.
-
-### 1. Create an Input File (Optional)
-
-Save this as `input/competitor-analysis.md`:
-
-```markdown
-# Competitor Analysis: Project Management Tools
-
-## Topic
-The current state of project management tools for product teams in 2026.
-
-## Questions I Want Answered
-- Which tools have the largest market share among product teams?
-- How do they compare in terms of features and pricing?
-- What are the latest trends in PM tooling?
-
-## Notes
-- Focus on tools used by product managers specifically
-- Include both enterprise and startup-friendly options
-```
-
-### 2. Generate a Plan
-
-```
-/plan See input/competitor-analysis.md
-```
-
-Claude will search the web for initial context, then produce a plan in `output/general/2026-02-18-pm-tools-landscape/2026-02-18-pm-tools-landscape-plan.md`.
-
-### 3. Review and Edit
-
-Open the plan file, adjust search queries, add questions, or narrow the scope. This is your chance to steer the research before execution.
-
-### 4. Execute the Plan
-
-```
-/implement output/general/2026-02-18-pm-tools-landscape/2026-02-18-pm-tools-landscape-plan.md
-```
-
-Claude will work through each phase, searching the web and fetching sources. The final report lands in `output/general/2026-02-18-pm-tools-landscape/2026-02-18-pm-tools-landscape.md` with full source citations.
-
-### 5. Summarize (Optional)
-
-```
-/summarize output/general/2026-02-18-pm-tools-landscape/2026-02-18-pm-tools-landscape.md
-```
-
-Produces a 1-page summary with key takeaways next to the original report.
-
 ## Helper Scripts
 
 ### List Output Files
@@ -288,6 +218,7 @@ Produces a 1-page summary with key takeaways next to the original report.
 ```bash
 ./scripts/list-output.sh           # List all output
 ./scripts/list-output.sh general   # List general research
+./scripts/list-output.sh edtech    # List EdTech intelligence
 ```
 
 ### Clean Old Output
@@ -301,14 +232,14 @@ Produces a 1-page summary with key takeaways next to the original report.
 
 | Convention | Detail |
 |---|---|
-| File format | All output is Markdown |
-| Output grouping | All artifacts from one query live in `output/general/YYYY-MM-DD-<slug>/` |
-| Plan naming | Plans get `-plan` suffix: `YYYY-MM-DD-<slug>-plan.md` |
-| File naming | All other files share the base name with different extensions |
-| Multi-file export | When exporting 2+ files, they are zipped into `YYYY-MM-DD-<slug>.zip` |
+| Auto-PDF | Every markdown file also gets a PDF version |
+| General research | Output in `output/general/YYYY-MM-DD-<slug>/` |
+| PM documents | Output in `output/product-management/<project-name>/` |
+| EdTech intelligence | Output in `output/edtech/YYYY-MM-DD-<slug>/` |
+| Plan naming | Plans get `-plan` suffix |
+| Multi-file export | 2+ exported files are zipped |
 | Sources | Every report includes URLs for all cited sources |
 | Cross-references | Reports link back to their source plan |
-| Input formats | `.md`, `.txt`, or `.json` files in `input/` |
 
 ## Tips
 
@@ -316,3 +247,5 @@ Produces a 1-page summary with key takeaways next to the original report.
 - **Use input files for complex topics.** A well-structured input file with specific questions produces much better plans.
 - **Chain summaries.** Run `/summarize` on multiple reports, then ask Claude to compare them.
 - **Iterate.** If a report has gaps, update the plan with new search queries and re-run `/implement`.
+- **Group PM docs by project.** Run multiple PM commands for the same product — they'll share a folder.
+- **Set up NewsAPI for EdTech commands.** The free tier (100 req/day) is sufficient for research use.
